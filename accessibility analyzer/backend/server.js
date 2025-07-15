@@ -3,12 +3,12 @@ const cors = require('cors');
 const { analyzeAccessibility } = require('./analyzer');
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;  
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ Health check route
+// Health check
 app.get('/', (req, res) => {
   res.send('✅ Accessibility Analyzer Backend is Running');
 });

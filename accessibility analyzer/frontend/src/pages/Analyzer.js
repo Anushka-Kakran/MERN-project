@@ -34,7 +34,7 @@ function Analyzer() {
     setLoading(true);
     setResults(null);
     try {
-      const res = await axios.post('http://localhost:8000/analyze', { url });
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/analyze`, { url });
       const data = res.data.results;
       setResults(data);
       setGraphData([
