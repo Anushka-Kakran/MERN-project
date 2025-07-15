@@ -31,24 +31,25 @@ function Analyzer() {
   }, [navigate]);
 
   const handleAnalyze = async () => {
-    setLoading(true);
-    setResults(null);
-    try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/analyze`, { url });
-      const data = res.data.results;
-      setResults(data);
-      setGraphData([
-        { name: 'Passes', value: data.passes?.length || 0 },
-        { name: 'Violations', value: data.violations?.length || 0 },
-        { name: 'Incomplete', value: data.incomplete?.length || 0 },
-        { name: 'Inapplicable', value: data.inapplicable?.length || 0 },
-      ]);
-    } catch (err) {
-      console.error('Error analyzing URL:', err);
-      alert("Failed to analyze URL. Make sure it's valid.");
-    }
-    setLoading(false);
-  };
+   setLoading(true);
+  setResults(null);
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/analyze`, { url });
+    const data = response.data.results;
+    setResults(data);
+    setGraphData([
+      { name: 'Passes', value: data.passes?.length || 0 },
+      { name: 'Violations', value: data.violations?.length || 0 },
+      { name: 'Incomplete', value: data.incomplete?.length || 0 },
+      { name: 'Inapplicable', value: data.inapplicable?.length || 0 },
+    ]);
+  } catch (err) {
+    console.error('Error analyzing URL:', err);
+    alert("Failed to analyze URL. Make sure it's valid.");
+  }
+  setLoading(false);  // ✅ Always reset loading
+};
+
 
   return (
     <div className="min-h-screen px-6 py-10 bg-grayBg text-textDark">
