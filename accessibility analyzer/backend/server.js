@@ -5,9 +5,13 @@ const analyzeAccessibility = require('./analyzer');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+
 // CORS Configuration
 app.use(cors({
-  origin: '*', // for development, allows all origins
+  origin: [
+    'http://localhost:3000',
+    'https://accessibility-analyzer-16580.web.app/'
+  ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
