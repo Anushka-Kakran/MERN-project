@@ -5,10 +5,12 @@ async function analyzeAccessibility(url) {
   let browser;
 
   try {
+    console.log(`🔎 Starting accessibility analysis for: ${url}`);
+
     browser = await puppeteer.launch({
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      timeout: 30000, 
+      timeout: 10000 ,
     });
 
     const page = await browser.newPage();
@@ -20,10 +22,12 @@ async function analyzeAccessibility(url) {
 
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
+    console.log('✅ Page loaded successfully, running axe-core analysis...');
+
     // Inject and run axe-core
     const rawResults = await new AxePuppeteer(page).analyze();
 
-    // OPTIONAL: Log inapplicable rules for debugging
+    // Log inapplicable rules for debugging
     rawResults.inapplicable.forEach(rule => {
       console.log(`Inapplicable Rule: ${rule.id} - ${rule.description}`);
     });
@@ -33,17 +37,22 @@ async function analyzeAccessibility(url) {
       passes: rawResults.passes,
       violations: rawResults.violations,
       incomplete: rawResults.incomplete,
-      inapplicable: rawResults.inapplicable.slice(0, 5) // Only first 5 inapplicable rules
+      inapplicable: rawResults.inapplicable.slice(0, 5)
     };
+
+    console.log('✅ Accessibility analysis completed successfully.');
 
     return filteredResults;
 
   } catch (error) {
+    console.error(`❌ Failed analyzing URL: ${url}`);
     console.error('❌ Puppeteer error:', error.message);
-    throw new Error('Unable to access or analyze the URL.');
+    console.error('❌ Full error details:', error);
+    throw new Error(`Unable to access or analyze the URL: ${error.message}`);
   } finally {
     if (browser) {
       await browser.close();
+      console.log('🛑 Browser instance closed.');
     }
   }
 }
