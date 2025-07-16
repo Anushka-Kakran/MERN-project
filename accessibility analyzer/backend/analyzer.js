@@ -1,34 +1,21 @@
 const puppeteer = require('puppeteer');
 
-async function analyzeAccessibility(targetUrl) {
-  console.log(`🔎 Starting accessibility analysis for: ${targetUrl}`);
-
-  let browser;
+(async () => {
   try {
-    browser = await puppeteer.launch({
-      headless: 'new',
+    console.log('Launching browser...');
+    const browser = await puppeteer.launch({
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    console.log('✅ Puppeteer launched browser successfully.');
-
     const page = await browser.newPage();
-    await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle2' });
 
-    console.log('✅ Page loaded successfully, running axe-core analysis...');
-    
-    // Return dummy success data for now to confirm Puppeteer works
-    return { message: "Puppeteer launched and page loaded successfully" };
+    console.log('Page loaded successfully');
 
-  } catch (err) {
-    console.error('❌ Puppeteer error:', err);
-    throw new Error('Unable to access or analyze the URL: ' + err.message);
-  } finally {
-    if (browser) {
-      await browser.close();
-      console.log('✅ Browser closed.');
-    }
+    await browser.close();
+    console.log('Browser closed');
+  } catch (error) {
+    console.error('Error:', error);
   }
-}
-
-module.exports = analyzeAccessibility;
+})();
