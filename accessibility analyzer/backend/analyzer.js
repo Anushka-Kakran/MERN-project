@@ -7,12 +7,10 @@ async function analyzeAccessibility(targetUrl) {
   try {
     browser = await puppeteer.launch({
       headless: 'new',
-      executablePath: puppeteer.executablePath(),  // <== This is important on Render
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     console.log('✅ Puppeteer launched browser successfully.');
-    console.log('✅ Using executablePath:', puppeteer.executablePath());
 
     const page = await browser.newPage();
     await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
