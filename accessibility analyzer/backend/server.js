@@ -1,14 +1,20 @@
 const express = require('express');
 const cors = require('cors');
-const analyzeAccessibility = require('./analyzer'); 
+const analyzeAccessibility = require('./analyzer');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+// CORS Configuration
+app.use(cors({
+  origin: '*', // for development, allows all origins
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
+
 app.use(express.json());
 
-// Health check route
+// Health check
 app.get('/', (req, res) => {
   res.send('✅ Accessibility Analyzer Backend is Running');
 });
@@ -29,6 +35,7 @@ app.post('/analyze', async (req, res) => {
   }
 });
 
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
