@@ -7,11 +7,11 @@ async function analyzeAccessibility(url) {
   try {
     console.log(`🔎 Starting accessibility analysis for: ${url}`);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-      executablePath: puppeteer.executablePath()   // ✅ Add this line
-    });
+   browser = await puppeteer.launch({
+  headless: 'new',
+  args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+  executablePath: puppeteer.executablePath()
+});
 
     const page = await browser.newPage();
 
