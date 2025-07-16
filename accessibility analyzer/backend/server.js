@@ -8,11 +8,13 @@ const PORT = process.env.PORT || 8000;
 
 
 // CORS Configuration
+
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://accessibility-analyzer-16580.web.app/'
+    'https://accessibility-analyzer-16580.web.app'
   ],
+  credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
