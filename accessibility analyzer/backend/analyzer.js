@@ -1,21 +1,25 @@
 const puppeteer = require('puppeteer');
 
-(async () => {
+async function analyzeAccessibility(targetUrl) {
+  let browser;
   try {
-    console.log('Launching browser...');
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
-
     const page = await browser.newPage();
-    await page.goto('https://example.com', { waitUntil: 'networkidle2' });
-
-    console.log('Page loaded successfully');
-
+    await page.goto(targetUrl, { waitUntil: 'networkidle2' });
     await browser.close();
-    console.log('Browser closed');
+    return {
+      passes: [],
+      violations: [],
+      incomplete: [],
+      inapplicable: []
+    };
   } catch (error) {
-    console.error('Error:', error);
+    if (browser) await browser.close();
+    throw error;
   }
-})();
+}
+
+module.exports = analyzeAccessibility;
