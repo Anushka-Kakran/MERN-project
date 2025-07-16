@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "start": "node server.js",
-    "postinstall": "npx puppeteer browsers install chrome"
-  },
+ "scripts": {
+  "start": "node testPuppeteer.js",
+  "postinstall": "npx puppeteer browsers install chrome"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
