@@ -47,7 +47,7 @@ function Analyzer() {
     console.error('Error analyzing URL:', err);
     alert("Failed to analyze URL. Make sure it's valid.");
   }
-  setLoading(false);  // ✅ Always reset loading
+  setLoading(false);  
 };
 
 
