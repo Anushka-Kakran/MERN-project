@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { analyzeAccessibility } = require('./analyzer');
+const analyzeAccessibility = require('./analyzer'); 
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -28,7 +28,6 @@ app.post('/analyze', async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to analyze URL.' });
   }
 });
-
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
