@@ -2,33 +2,34 @@ process.env.PUPPETEER_CACHE_DIR = "/opt/render/.cache/puppeteer";
 
 const express = require('express');
 const cors = require('cors');
-const { analyzeAccessibility } = require('./analyzer');
+const analyzeAccessibility = require('./analyzer');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Enable CORS for all origins and methods
+// CORS Middleware
 app.use(cors());
 app.use(express.json());
 
-// Health Check
+// Health check route
 app.get('/', (req, res) => {
   res.send('✅ Accessibility Analyzer Backend is Running');
 });
 
-// Analyze Route
+// Analyze route
 app.post('/analyze', async (req, res) => {
   const { url } = req.body;
+
   if (!url || !url.startsWith('http')) {
-    return res.status(400).json({ success: false, message: 'Please enter a valid URL' });
+    return res.status(400).json({ success: false, message: 'Please provide a valid URL starting with http/https.' });
   }
 
   try {
     const results = await analyzeAccessibility(url);
     res.json({ success: true, results });
   } catch (error) {
-    console.error('❌ Analyze Error:', error);
-    res.status(500).json({ success: false, message: 'Failed to analyze URL.' });
+    console.error('Error in /analyze:', error);
+    res.status(500).json({ success: false, message: 'Failed to analyze URL.', error: error.message });
   }
 });
 
