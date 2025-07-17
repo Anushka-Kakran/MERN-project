@@ -7,21 +7,16 @@ const { analyzeAccessibility } = require('./analyzer');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-app.options('*', cors());
+// Enable CORS for all origins and methods
+app.use(cors());
 app.use(express.json());
 
-// Health check
+// Health Check
 app.get('/', (req, res) => {
   res.send('✅ Accessibility Analyzer Backend is Running');
 });
 
-// Analyze route
+// Analyze Route
 app.post('/analyze', async (req, res) => {
   const { url } = req.body;
   if (!url || !url.startsWith('http')) {
@@ -32,7 +27,7 @@ app.post('/analyze', async (req, res) => {
     const results = await analyzeAccessibility(url);
     res.json({ success: true, results });
   } catch (error) {
-    console.error(error);
+    console.error('❌ Analyze Error:', error);
     res.status(500).json({ success: false, message: 'Failed to analyze URL.' });
   }
 });

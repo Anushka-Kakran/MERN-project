@@ -1,8 +1,6 @@
 const { AxePuppeteer } = require('@axe-core/puppeteer');
 
-const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION 
-  || process.env.NODE_ENV === 'production' 
-  || process.env.PUPPETEER_CACHE_DIR;
+const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION || process.env.NODE_ENV === 'production';
 
 let puppeteer, chromium;
 if (isProduction) {
@@ -42,14 +40,14 @@ async function analyzeAccessibility(url) {
       inapplicable: results.inapplicable.slice(0, 5)
     };
   } catch (error) {
-    console.error('❌ Puppeteer error:', error && error.stack ? error.stack : error);
+    console.error('❌ Puppeteer error:', error);
     throw new Error(`Unable to access or analyze the URL: ${error.message}`);
   } finally {
     if (browser) {
       try {
         await browser.close();
-      } catch (closeErr) {
-        console.error('❌ Error closing browser:', closeErr);
+      } catch (err) {
+        console.error('❌ Error closing browser:', err);
       }
     }
   }
