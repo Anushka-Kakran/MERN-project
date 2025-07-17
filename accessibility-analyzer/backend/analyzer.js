@@ -1,16 +1,24 @@
-const chromium = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer');
 const { AxePuppeteer } = require('@axe-core/puppeteer');
+
+const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION 
+  || process.env.NODE_ENV === 'production' 
+  || process.env.PUPPETEER_CACHE_DIR;
+
+let puppeteer, chromium;
+if (isProduction) {
+  chromium = require('chrome-aws-lambda');
+  puppeteer = require('puppeteer-core');
+} else {
+  puppeteer = require('puppeteer');
+}
 
 async function analyzeAccessibility(url) {
   let browser;
   try {
     console.log(`🔎 Starting accessibility analysis for: ${url}`);
 
-    const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION || process.env.NODE_ENV === 'production';
-
     browser = await (isProduction
-      ? require('puppeteer-core').launch({
+      ? puppeteer.launch({
           args: chromium.args,
           defaultViewport: chromium.defaultViewport,
           executablePath: await chromium.executablePath,
@@ -34,11 +42,17 @@ async function analyzeAccessibility(url) {
       inapplicable: results.inapplicable.slice(0, 5)
     };
   } catch (error) {
-    console.error('❌ Puppeteer error:', error);
+    console.error('❌ Puppeteer error:', error && error.stack ? error.stack : error);
     throw new Error(`Unable to access or analyze the URL: ${error.message}`);
   } finally {
-    if (browser) await browser.close();
+    if (browser) {
+      try {
+        await browser.close();
+      } catch (closeErr) {
+        console.error('❌ Error closing browser:', closeErr);
+      }
+    }
   }
 }
 
-module.exports = analyzeAccessibility;
+module.exports = { analyzeAccessibility };
