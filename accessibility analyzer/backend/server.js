@@ -3,23 +3,16 @@ const express = require('express');
 const cors = require('cors');
 const { analyzeAccessibility } = require('./analyzer');
 
-
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-
-// CORS Configuration
-
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://accessibility-analyzer-16580.web.app'
-  ],
-  credentials: true,
+  origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.options('*', cors());
 app.use(express.json());
 
 // Health check
