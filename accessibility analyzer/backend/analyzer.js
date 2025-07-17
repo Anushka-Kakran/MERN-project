@@ -5,17 +5,22 @@ async function analyzeAccessibility(targetUrl) {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: puppeteer.executablePath()  // ✅ Ensure correct Chromium path
     });
+
     const page = await browser.newPage();
     await page.goto(targetUrl, { waitUntil: 'networkidle2' });
+
     await browser.close();
+
     return {
       passes: [],
       violations: [],
       incomplete: [],
       inapplicable: []
     };
+    
   } catch (error) {
     if (browser) await browser.close();
     throw error;
