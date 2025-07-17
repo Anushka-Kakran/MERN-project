@@ -1,7 +1,8 @@
 process.env.PUPPETEER_CACHE_DIR = "/opt/render/.cache/puppeteer";
+
 const express = require('express');
 const cors = require('cors');
-const { analyzeAccessibility } = require('./analyzer');
+const analyzeAccessibility = require('./analyzer');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
