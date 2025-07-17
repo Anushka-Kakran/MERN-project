@@ -1,13 +1,13 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
+  let browser;
   try {
     console.log('Launching browser...');
 
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: puppeteer.executablePath()  // <-- Ensure this path points to the installed Chrome
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
@@ -15,9 +15,12 @@ const puppeteer = require('puppeteer');
 
     console.log('Page loaded successfully');
 
-    await browser.close();
-    console.log('Browser closed');
   } catch (error) {
     console.error('Error:', error);
+  } finally {
+    if (browser) {
+      await browser.close();
+      console.log('Browser closed');
+    }
   }
 })();
