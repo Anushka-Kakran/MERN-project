@@ -3,9 +3,11 @@ const puppeteer = require('puppeteer');
 (async () => {
   try {
     console.log('Launching browser...');
+
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: puppeteer.executablePath()  // <-- Ensure this path points to the installed Chrome
     });
 
     const page = await browser.newPage();

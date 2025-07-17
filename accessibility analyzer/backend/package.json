@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
- "start": "node testPuppeteer.js && node server.js",
+ "start": "node server.js",
   "postinstall": "npx puppeteer browsers install chrome"
 },
   "keywords": [],
