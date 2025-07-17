@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
- "start": "node server.js",
-  "postinstall": "npx puppeteer browsers install chrome"
-},
+    "start": "node server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@axe-core/puppeteer": "^4.10.2",
+    "chrome-aws-lambda": "10.1.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "puppeteer": "^24.12.1"
+    "puppeteer": "^24.14.0"
   }
 }
