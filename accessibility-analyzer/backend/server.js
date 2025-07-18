@@ -1,4 +1,4 @@
-process.env.PUPPETEER_CACHE_DIR = "/opt/render/.cache/puppeteer";
+process.env.PUPPETEER_CACHE_DIR = "/tmp/.cache/puppeteer"; // Use a temporary directory
 
 const express = require('express');
 const cors = require('cors');
