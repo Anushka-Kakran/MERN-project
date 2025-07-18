@@ -40,8 +40,8 @@ An online bookstore application built with the MERN stack.
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/Anushka-Kakran/<MERN-projects>.git
-cd <MERN-projects/MERN-BookStore>
+git clone https://github.com/Anushka-Kakran/MERN-projects.git
+cd "MERN-projects/MERN-BookStore"
 ```
 
 ### Step 2: Navigate to the Desired Project
