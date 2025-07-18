@@ -9,7 +9,9 @@ async function analyzeAccessibility(url) {
     // Set the path to the Chrome executable if needed
     const browserOptions = {
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome', // Explicitly set executable path
+      ignoreDefaultArgs: ['--disable-extensions'] // Often needed in server environments
     };
 
     // Optionally specify the executable path
