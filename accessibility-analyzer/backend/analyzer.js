@@ -6,11 +6,18 @@ async function analyzeAccessibility(url) {
   try {
     console.log(`🔎 Analyzing: ${url}`);
 
-    browser = await puppeteer.launch({
+    // Set the path to the Chrome executable if needed
+    const browserOptions = {
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    };
 
+    // Optionally specify the executable path
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+      browserOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+    }
+
+    browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
