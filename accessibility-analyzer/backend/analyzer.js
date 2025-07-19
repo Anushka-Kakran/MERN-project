@@ -21,7 +21,7 @@ async function analyzeAccessibility(url) {
 
     browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     const results = await new AxePuppeteer(page).analyze();
     return {
